@@ -15,7 +15,7 @@ class Game:
         self.board.draw(True)
         i = 0         
         while (not self.board.game_over()):  
-            #try:          
+            try:          
                 player = self.players[i]
                 if player.is_human():
                     position = int(input(f"\nEnter a position: "))
@@ -24,8 +24,8 @@ class Game:
                     player.play(self.board)
                 i = (i + 1) % 2  
                 self.board.draw(True)
-            #except Exception as e:
-            #    print(str(e))
+            except Exception as e:
+                print(str(e))
         
         if self.board.winner == None:
             print("\nDraw")

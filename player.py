@@ -39,8 +39,7 @@ class Computer(Player):
 
         (maxChild, maxUtility) = (None, float('-Inf'))
         
-        children = state.get_children(self.mark)
-        
+        children = state.get_children(self.mark)        
         if depth > analysis.depth:
             analysis.depth = depth
         analysis.nodes += len(children)
@@ -50,13 +49,12 @@ class Computer(Player):
 
             if utility > maxUtility:
                 (maxChild, maxUtility) = (child, utility)            
-            '''
+            
             if maxUtility >= beta:
                 break
-
             if maxUtility > alpha:
                 alpha = maxUtility
-            '''            
+                        
         return (maxChild, maxUtility)
 
     def minimize(self, state, alpha, beta, analysis, depth = 0):
@@ -66,7 +64,6 @@ class Computer(Player):
         (minChild, minUtility) = (None, float('Inf'))
 
         children = state.get_children("0")
-
         if depth > analysis.depth:
             analysis.depth = depth
         analysis.nodes += len(children)
@@ -76,13 +73,12 @@ class Computer(Player):
 
             if utility < minUtility:
                 (minChild, minUtility) = (child, utility)
-            '''
+            
             if minUtility <= alpha:
-                break
-        
+                break        
             if minUtility < beta:
                 beta = minUtility             
-            '''
+            
         return (minChild, minUtility)
     
     def evaluate(self, state, player):
