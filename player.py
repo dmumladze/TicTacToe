@@ -2,9 +2,9 @@ from collections import namedtuple
 from board import Board
 
 class Player:
-
-    def __init__(self, mark):
-        self.mark = mark
+    def __init__(self):
+        self.mark = None
+        self.opponent = None     
 
     def play(self, state = Board, position = None):
         pass 
@@ -13,9 +13,6 @@ class Player:
         return False
 
 class Human(Player):
-    def __init__(self, mark):
-        super().__init__(mark)
-
     def is_human(self):
         return True
 
@@ -23,9 +20,6 @@ class Human(Player):
         board.apply(self.mark, position) 
 
 class Computer(Player):
-    def __init__(self, mark):
-        super().__init__(mark)
-
     def play(self, board = Board):   
         analysis = namedtuple("Analysis", ["depth", "nodes"])  
         analysis.depth = 0
@@ -35,7 +29,7 @@ class Computer(Player):
 
     def maximize(self, state, alpha, beta, analysis, depth = 0):
         if state.game_over():
-            return (None, self.evaluate(state, self.mark))
+            return (None, self.evaluate(state))
 
         (maxChild, maxUtility) = (None, float('-Inf'))
         
@@ -46,7 +40,6 @@ class Computer(Player):
 
         for child in children:       
             (_, utility) = self.minimize(child, alpha, beta, analysis, depth+1)
-
             if utility > maxUtility:
                 (maxChild, maxUtility) = (child, utility)            
             
@@ -59,18 +52,17 @@ class Computer(Player):
 
     def minimize(self, state, alpha, beta, analysis, depth = 0):
         if state.game_over(): 
-            return (None, self.evaluate(state, '0'))
+            return (None, self.evaluate(state))
         
         (minChild, minUtility) = (None, float('Inf'))
 
-        children = state.get_children("0")
+        children = state.get_children(self.opponent)
         if depth > analysis.depth:
             analysis.depth = depth
         analysis.nodes += len(children)
 
         for child in children: 
             (_, utility) = self.maximize(child, alpha, beta, analysis, depth+1)  
-
             if utility < minUtility:
                 (minChild, minUtility) = (child, utility)
             
@@ -81,10 +73,10 @@ class Computer(Player):
             
         return (minChild, minUtility)
     
-    def evaluate(self, state, player):
-        if state.winner == player:
+    def evaluate(self, state):
+        if state.winner == self.mark:
             return 10
-        elif state.winner == '0':
+        elif state.winner == self.opponent:
             return -10
         else:
             return 0                
