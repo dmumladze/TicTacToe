@@ -11,11 +11,11 @@ class Game:
 
     def accept_player(self, player = Player):
         if len(self.players) == 0:
-            player.mark = X
-            player.opponent = O
+            player.mark = Game.X
+            player.opponent = Game.O
         elif len(self.players) == 1:
-            player.mark = O
-            player.opponent = X
+            player.mark = Game.O
+            player.opponent = Game.X
         else:
             raise Exception("Game has sufficient number of players")
         self.players.append(player)
