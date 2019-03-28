@@ -2,12 +2,21 @@ from board import Board
 from player import Player, Human, Computer
 
 class Game:
-    def __init__(self, board = Board):
-        self.board = board
+    X = "X"
+    O = "O"
+
+    def __init__(self):
+        self.board = Board()
         self.players = []        
 
-    def accept_player(self, player):
-        if len(self.players) == 2:
+    def accept_player(self, player = Player):
+        if len(self.players) == 0:
+            player.mark = X
+            player.opponent = O
+        elif len(self.players) == 1:
+            player.mark = O
+            player.opponent = X
+        else:
             raise Exception("Game has sufficient number of players")
         self.players.append(player)
 
