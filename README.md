@@ -1,2 +1,2 @@
 # TicTacToe
-Unbeatable TicTacToe AI
+Unbeatable TicTacToe AI that never loses!
